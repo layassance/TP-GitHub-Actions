@@ -1,20 +1,18 @@
-name: Test Runner
+name: Runner
+
 on:
-push:
-branches:
-- main
+  push:
+    branches: [ "main" ]
+
 jobs:
-test-runner:
-runs-on:
-- self-hosted
-- linux
-- x64
-steps:
-- name: Verification
-run: echo "Test de fonctionnement du Runner !"
-- name: tests de commandes
-run: |
-echo "Runner OK"
-hostname
-whoami
-uname -a
+  test-debian:
+    runs-on: self-hosted
+    steps:
+      - name: Récupération du code
+        uses: actions/checkout@v4
+
+      - name: Dire bonjour
+        run: echo "Bonjour depuis ma VM Debian 13 !"
+
+      - name: Vérifier l'heure de la VM
+        run: date
