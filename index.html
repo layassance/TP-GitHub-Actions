@@ -1,10 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>TP-GitHub-Actions</title>
+    <meta charset="UTF-8">
+    <title>Dashboard CI/CD - Statut Opérationnel</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-top: 5px solid #2ea44f; text-align: center; }
+        h1 { color: #24292e; }
+        .status { color: #2ea44f; font-weight: bold; }
+        .info { color: #666; font-size: 0.9rem; margin-top: 1rem; }
+    </style>
 </head>
 <body>
-    <h1>Titre numéro 1</h1>
-    <p>Texte paragraphe pour test</p>
+    <div class="card">
+        <h1>Déploiement Réussi</h1>
+        <p>Le site est propulsé par un <strong>Runner GitHub Actions</strong> sur Debian 13.</p>
+        <p class="status">● Statut : Opérationnel</p>
+        <div class="info">Dernière mise à jour : <span id="date"></span></div>
+    </div>
+    <script>document.getElementById('date').innerText = new Date().toLocaleString();</script>
 </body>
 </html>
