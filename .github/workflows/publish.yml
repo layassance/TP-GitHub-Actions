@@ -1,4 +1,4 @@
-name: Instal et publication de l'app
+name: Déploiement Continu Optimisé
 
 on:
   push:
@@ -8,31 +8,23 @@ jobs:
   deploy:
     runs-on: self-hosted
     steps:
-      - name: Récupération du code
+      - name: Récupération du code source
         uses: actions/checkout@v4
 
-      - name: Installation nginx
+      - name: Installation des dépendances (si nécessaire)
         run: |
-          sudo apt update
-          sudo apt install -y nginx
-          sudo mkdir -p /var/www/site
-          sudo chown -R www-data:www-data /var/www/site
+          if ! command -v nginx &> /dev/null; then
+            sudo apt update && sudo apt install -y nginx
+          fi
 
-      - name: Configuration nginx
+      - name: Mise à jour du contenu web
         run: |
-          sudo tee /etc/nginx/sites-available/site > /dev/null <<EOF
-          server {
-              listen 80;
-              server_name localhost;
-              root /var/www/site;
-              index index.html;
-              location / {
-                  try_files \$uri \$uri/ =404;
-              }
-          }
-          EOF
-          sudo ln -sf /etc/nginx/sites-available/site /etc/nginx/sites-enabled/site
-          sudo rm -f /etc/nginx/sites-enabled/default
+          # On s'assure que le dossier existe
+          sudo mkdir -p /var/www/site
+          # On copie uniquement le fichier HTML
           sudo cp index.html /var/www/site/index.html
+          # On ajuste les permissions
           sudo chown www-data:www-data /var/www/site/index.html
-          sudo systemctl reload nginx
+
+      - name: Rechargement de Nginx
+        run: sudo systemctl reload nginx
